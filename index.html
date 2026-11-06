@@ -1,0 +1,163 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Signup Form</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            width: 400px;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-top: 8px;
+            border: 1px solid black;
+            border-radius: 5px;
+        }
+
+        .error {
+            color: red;
+            min-height: 20px;
+            margin-bottom: 15px;
+        }
+
+        .success {
+            color: green;
+            min-height: 20px;
+            margin-bottom: 15px;
+        }
+
+        button {
+            height: 28px;
+            width: 128px;
+            cursor: pointer;
+            background-color: white;
+            border-radius: 5px;
+        }
+
+        #passwordLabel {
+            display: block;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <form id="signupForm">
+
+            <label>Email</label>
+            <br>
+
+            <input
+                type="text"
+                id="email"
+                placeholder="Example@email.com"
+                oninput="onChange('email')"
+            >
+
+            <p id="emailError" class="error">
+                Make sure email is more than 3 characters and contains @ and .
+            </p>
+
+            <label id="passwordLabel">Password</label>
+
+            <input
+                type="password"
+                id="password"
+                placeholder="Your Password"
+                oninput="onChange('password')"
+            >
+
+            <p id="passwordMessage" class="error">
+                Make sure password is more than 8 characters.
+            </p>
+
+            <button type="button" onclick="submitForm()">
+                Submit
+            </button>
+
+        </form>
+    </div>
+
+    <script>
+
+        let emailValid = false;
+        let passwordValid = false;
+
+        function onChange(type) {
+
+            if (type === "email") {
+
+                let email = document.getElementById("email").value;
+
+                emailValid = email.length > 3 &&
+                             email.includes("@") &&
+                             email.includes(".");
+
+                document.getElementById("emailError").style.display =
+                    emailValid ? "none" : "block";
+            }
+
+            if (type === "password") {
+
+                let password = document.getElementById("password").value;
+
+                passwordValid = password.length > 8;
+            }
+
+            let passwordMessage =
+                document.getElementById("passwordMessage");
+
+            if (emailValid && passwordValid) {
+                passwordMessage.innerHTML = "All good to go!";
+                passwordMessage.className = "success";
+            } else {
+                passwordMessage.innerHTML =
+                    "Make sure password is more than 8 characters.";
+                passwordMessage.className = "error";
+            }
+        }
+
+        function submitForm() {
+
+            if (emailValid && passwordValid) {
+
+                if (confirm("Are you sure you want to sign up?")) {
+
+                    alert("Successful signup!");
+
+                } else {
+
+                    document.getElementById("signupForm").reset();
+
+                    emailValid = false;
+                    passwordValid = false;
+
+                    document.getElementById("emailError").style.display = "block";
+
+                    let passwordMessage =
+                        document.getElementById("passwordMessage");
+
+                    passwordMessage.innerHTML =
+                        "Make sure password is more than 8 characters.";
+
+                    passwordMessage.className = "error";
+                }
+
+            } else {
+                alert("Please enter valid email and password!");
+            }
+        }
+
+    </script>
+
+</body>
+</html>
